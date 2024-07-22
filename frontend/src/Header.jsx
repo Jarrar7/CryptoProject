@@ -11,6 +11,7 @@ const Header = () => {
                     <li className="cursor-pointer">Market Sentiment</li>
                     <li className="cursor-pointer">Custom Alerts</li>
                     <li className="cursor-pointer">Profile</li>
+                    <li className="cursor-pointer">Logout</li>
                 </ul>
             </nav>
         </header>

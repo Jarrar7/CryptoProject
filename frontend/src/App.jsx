@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './Header';
 import MarketSummary from './MarketSummary';
 import ThemeToggle from './ThemeToggle';
+import Login from './Login';
 import './index.css';
 
 function App() {
@@ -12,13 +14,23 @@ function App() {
   }, [theme]);
 
   return (
-    <div className="App">
-      <Header />
-      <div className="flex justify-end p-4">
-        <ThemeToggle theme={theme} setTheme={setTheme} />
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={
+            <>
+              <Header />
+              <div className="flex justify-end p-4">
+                <ThemeToggle theme={theme} setTheme={setTheme} />
+              </div>
+              <MarketSummary />
+            </>
+          } />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       </div>
-      <MarketSummary />
-    </div>
+    </Router>
   );
 }
 
