@@ -29,11 +29,32 @@ const CryptoCard = ({ data, historicalData }) => {
     labels: historicalData.map(d => d.date),
     datasets: [
       {
-        label: `${data.name} Price`,
-        data: historicalData.map(d => d.price),
+        label: `${data.name} Opening Price`,
+        data: historicalData.map(d => d.open),
         fill: false,
         backgroundColor: 'rgba(75,192,192,0.2)',
         borderColor: 'rgba(75,192,192,1)',
+      },
+      {
+        label: `${data.name} Closing Price`,
+        data: historicalData.map(d => d.close),
+        fill: false,
+        backgroundColor: 'rgba(153,102,255,0.2)',
+        borderColor: 'rgba(153,102,255,1)',
+      },
+      {
+        label: `${data.name} Highest Price`,
+        data: historicalData.map(d => d.high),
+        fill: false,
+        backgroundColor: 'rgba(255,159,64,0.2)',
+        borderColor: 'rgba(255,159,64,1)',
+      },
+      {
+        label: `${data.name} Lowest Price`,
+        data: historicalData.map(d => d.low),
+        fill: false,
+        backgroundColor: 'rgba(255,99,132,0.2)',
+        borderColor: 'rgba(255,99,132,1)',
       },
     ],
   } : null;

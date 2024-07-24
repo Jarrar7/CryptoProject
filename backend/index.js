@@ -64,15 +64,18 @@ app.get('/api/historical/:symbol', async (req, res) => {
     const response = await axios.get(`https://mdata.mtw-testnet.com/item/${coinName}/30`);
     console.log(`Response for ${symbol}:`, response.data);
 
-    
+    // ודא שהתשובה מכילה את המערך הצפוי
     if (Array.isArray(response.data)) {
       const data = response.data.map(item => ({
-        date: new Date(item[0]).toLocaleDateString(),
-        price: item[4],
+        date: new Date(item[0]).toLocaleDateString(),  // המרת Timestamp לתאריך קריא
+        open: item[1],  // מחיר הפתיחה
+        high: item[2],  // המחיר הגבוה ביותר
+        low: item[3],   // המחיר הנמוך ביותר
+        close: item[4]  // מחיר הסגירה
       }));
       res.json(data);
     } else {
-      
+      // טיפול במקרה שהתשובה אינה במבנה המצופה
       console.error(`Unexpected response structure for ${symbol}:`, response.data);
       res.status(500).json({ error: 'Unexpected response structure' });
     }
