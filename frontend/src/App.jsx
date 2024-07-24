@@ -7,13 +7,14 @@ import './index.css';
 function App() {
   const [theme, setTheme] = useState('light');
   const [cryptoData, setCryptoData] = useState([]);
+  const [historicalData, setHistoricalData] = useState({});
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCurrentData = async () => {
       try {
         console.log('Fetching data from backend...');
         const response = await fetch('http://localhost:3001/api/prices');
@@ -21,9 +22,8 @@ function App() {
           throw new Error('Network response was not ok');
         }
         const result = await response.json();
-        console.log('Data from backend:', result); 
+        console.log('Data from backend:', result);
         const formattedData = Object.keys(result).map(symbol => {
-          console.log('Symbol:', symbol, 'Data:', result[symbol]);
           return {
             name: symbol,
             symbol: symbol,
@@ -31,17 +31,41 @@ function App() {
             change: parseFloat(result[symbol].c)
           };
         });
-        console.log('Formatted Data:', formattedData); 
+        console.log('Formatted Data:', formattedData);
         setCryptoData(formattedData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchData();
-    const interval = setInterval(fetchData, 5000);
+    fetchCurrentData();
+    const interval = setInterval(fetchCurrentData, 1000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const fetchHistoricalData = async () => {
+      try {
+        const data = {};
+        const symbols = ['BTC', 'ETH', 'BNB', 'DOGE', 'SHIB', 'ADA', 'LINK'];
+        for (let symbol of symbols) {
+          const response = await fetch(`http://localhost:3001/api/historical/${symbol}`);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch historical data for ${symbol}`);
+          }
+          const result = await response.json();
+          console.log(`Historical data for ${symbol}:`, result);
+          data[symbol] = result;
+        }
+        console.log('Historical Data:', data);
+        setHistoricalData(data);
+      } catch (error) {
+        console.error('Error fetching historical data:', error);
+      }
+    };
+
+    fetchHistoricalData();
   }, []);
 
   return (
@@ -50,7 +74,7 @@ function App() {
       <div className="flex justify-end p-4">
         <ThemeToggle theme={theme} setTheme={setTheme} />
       </div>
-      <MarketSummary cryptoData={cryptoData} />
+      <MarketSummary cryptoData={cryptoData} historicalData={historicalData} />
     </div>
   );
 }
