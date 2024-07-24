@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
-import MarketSummary from './components/MarketSummary';
+import CryptoList from './components/CryptoList';
+import CryptoDetail from './components/CryptoDetail';
 import ThemeToggle from './components/ThemeToggle';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -28,9 +29,10 @@ function App() {
               <div className="flex justify-end p-4">
                 <ThemeToggle theme={theme} setTheme={setTheme} />
               </div>
-              <MarketSummary />
+              <CryptoList />
             </>
           } />
+          <Route path="/crypto/:id" element={<CryptoDetail />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer />

@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
+const cryptoRoutes = require('./routes/cryptoRoutes'); // Import the new routes
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/crypto', cryptoRoutes); // Use the new routes
 
 // Log the MongoDB URI to check if it is being read correctly
 console.log('MongoDB URI:', process.env.MONGO_URI);
