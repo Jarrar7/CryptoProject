@@ -4,6 +4,9 @@ import Header from './Header';
 import MarketSummary from './MarketSummary';
 import ThemeToggle from './ThemeToggle';
 import Login from './Login';
+import Signup from './Signup';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
 function App() {
@@ -18,6 +21,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Signup />} />
           <Route path="/home" element={
             <>
               <Header />
@@ -29,6 +33,7 @@ function App() {
           } />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <ToastContainer />
       </div>
     </Router>
   );

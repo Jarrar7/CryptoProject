@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import Logout from './Logout';
 
 const Header = () => {
     return (
@@ -11,7 +13,7 @@ const Header = () => {
                     <li className="cursor-pointer">Market Sentiment</li>
                     <li className="cursor-pointer">Custom Alerts</li>
                     <li className="cursor-pointer">Profile</li>
-                    <li className="cursor-pointer">Logout</li>
+                    <li><Logout /></li>
                 </ul>
             </nav>
         </header>
