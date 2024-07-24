@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Header from './Header';
-import MarketSummary from './MarketSummary';
-import ThemeToggle from './ThemeToggle';
-import Login from './Login';
-import Signup from './Signup';
+import Header from './components/Header';
+import MarketSummary from './components/MarketSummary';
+import ThemeToggle from './components/ThemeToggle';
+import Login from './components/Login';
+import Signup from './components/Signup';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';

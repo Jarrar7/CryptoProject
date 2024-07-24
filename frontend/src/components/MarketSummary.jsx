@@ -1,5 +1,5 @@
 import React from 'react';
-import CryptoCard from './CryptoCard';
+import CryptoCard from '../CryptoCard';
 
 const MarketSummary = () => {
     const cryptoData = [
