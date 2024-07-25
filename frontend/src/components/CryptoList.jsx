@@ -16,7 +16,6 @@ const CryptoList = () => {
                 const data = await response.json();
                 console.log('Fetched cryptos with additional info:', data);
 
-                // Check if data is an array
                 if (Array.isArray(data)) {
                     setCryptos(data);
                 } else {
@@ -55,7 +54,7 @@ const CryptoList = () => {
                                 <div className="w-10 h-10 mr-4 bg-gray-300 rounded-full" />
                             )}
                             <Link to={`/crypto/${crypto.id}`} className="text-blue-500 flex-1">
-                                <span className="font-semibold">{crypto.id}</span>: {crypto.price} USD
+                                <span className="font-semibold">{crypto.name}</span>: {crypto.price} USD
                             </Link>
                         </div>
                         <div className="flex flex-col ml-14">

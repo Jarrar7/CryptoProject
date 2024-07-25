@@ -1,39 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
+import LiveChart from './LiveChart'; // Import the LiveChart component
 
 const CryptoDetail = () => {
     const { id } = useParams();
-    const [chartData, setChartData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [cryptoInfo, setCryptoInfo] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/crypto/${id}/chart`)
-            .then(response => response.json())
-            .then(data => {
-                const chartData = {
-                    labels: data.map(point => new Date(point.time).toLocaleTimeString()),
-                    datasets: [{
-                        label: `${id} Price`,
-                        data: data.map(point => point.price),
-                        fill: false,
-                        borderColor: 'rgba(75,192,192,1)',
-                        tension: 0.1
-                    }]
-                };
-                setChartData(chartData);
-            })
-            .catch(error => console.error('Error fetching chart data:', error));
+        const fetchCryptoInfo = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/api/crypto/${id}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setCryptoInfo(data);
+                setLoading(false);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        };
+
+        fetchCryptoInfo();
     }, [id]);
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error.message}</p>;
+
     return (
-        <div>
-            <h2 className="text-2xl font-bold mb-6 text-center">{id} - 1 Day Chart</h2>
-            {chartData ? (
-                <Line data={chartData} />
-            ) : (
-                <p>Loading chart...</p>
-            )}
+        <div className="bg-gray-100 min-h-screen p-8">
+            <div className="bg-white shadow-md rounded-lg p-6 max-w-3xl mx-auto">
+                <h1 className="text-3xl font-semibold mb-4">{cryptoInfo.name}</h1>
+                <p className="mb-4">{cryptoInfo.summary}</p>
+                <a href={cryptoInfo.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline mb-6 block">Official Website</a>
+                <LiveChart symbol={id} /> {/* Use the LiveChart component */}
+            </div>
         </div>
     );
 };

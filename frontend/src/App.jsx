@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
-import CryptoList from './components/CryptoList';
-import CryptoDetail from './components/CryptoDetail';
 import ThemeToggle from './components/ThemeToggle';
 import Login from './components/Login';
-import Signup from './components/Signup';
+import Signup from './components/Signup'; // Import the Signup component
+import CryptoList from './components/CryptoList';
+import CryptoDetail from './components/CryptoDetail';
+import './index.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './index.css';
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -22,7 +22,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Signup />} />
+          <Route path="/register" element={<Signup />} /> {/* Add the register route */}
           <Route path="/home" element={
             <>
               <Header />
@@ -36,6 +36,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer />
+
       </div>
     </Router>
   );
