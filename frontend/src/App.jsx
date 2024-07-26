@@ -36,7 +36,6 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer />
-
       </div>
     </Router>
   );

@@ -1,5 +1,44 @@
 const express = require('express');
 const router = express.Router();
+const axios = require('axios');
+const WebSocket = require('ws');
+
+// WebSocket setup
+const livePrices = {};
+const socket = new WebSocket('wss://mtickers.mtw-testnet.com/');
+
+socket.onopen = () => {
+    console.log('WebSocket connection opened');
+};
+
+socket.onmessage = (e) => {
+    const data = JSON.parse(e.data);
+    //console.log('Received data from WebSocket:', data);
+    Object.keys(data).forEach(key => {
+        livePrices[key] = data[key].p;
+    });
+};
+
+socket.onclose = () => {
+    console.log('WebSocket connection closed');
+};
+
+socket.onerror = (error) => {
+    console.error('WebSocket error:', error);
+};
+
+const coinNameMap = {
+    BTC: 'bitcoin',
+    ETH: 'ethereum',
+    BNB: 'binancecoin',
+    DOGE: 'dogecoin',
+    SHIB: 'shiba-inu',
+    ADA: 'cardano',
+    LINK: 'chainlink'
+};
+
+
+
 
 router.get('/all', async (req, res) => {
     try {
@@ -91,6 +130,38 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         console.error(`Error fetching data for ${id}:`, error);
         res.status(500).json({ error: `Failed to fetch data for ${id}` });
+    }
+});
+
+router.get('/historical/:symbol', async (req, res) => {
+    const { symbol } = req.params;
+    const coinName = coinNameMap[symbol.toUpperCase()];
+    if (!coinName) {
+        return res.status(400).json({ error: `Unsupported symbol: ${symbol}` });
+    }
+
+    try {
+        const response = await axios.get(`https://mdata.mtw-testnet.com/item/${coinName}/30`);
+        console.log(`Response for ${symbol}:`, response.data);
+
+        if (Array.isArray(response.data)) {
+            const historicalData = response.data.map(item => ({
+                timestamp: item[0],
+                open: item[1],
+                high: item[2],
+                low: item[3],
+                close: item[4]
+            }));
+            const livePrice = livePrices[symbol.toUpperCase()] || null;
+
+            res.json({ historicalData, livePrice });
+        } else {
+            console.error(`Unexpected response structure for ${symbol}:`, response.data);
+            res.status(500).json({ error: 'Unexpected response structure' });
+        }
+    } catch (error) {
+        console.error(`Error fetching historical data for ${symbol}:`, error);
+        res.status(500).json({ error: 'Failed to fetch historical data' });
     }
 });
 

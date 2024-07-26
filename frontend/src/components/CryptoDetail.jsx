@@ -33,9 +33,11 @@ const CryptoDetail = () => {
     return (
         <div className="bg-gray-100 min-h-screen p-8">
             <div className="bg-white shadow-md rounded-lg p-6 max-w-3xl mx-auto">
-                <h1 className="text-3xl font-semibold mb-4">{cryptoInfo.name}</h1>
-                <p className="mb-4">{cryptoInfo.summary}</p>
-                <a href={cryptoInfo.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline mb-6 block">Official Website</a>
+                <h1 className="text-4xl font-bold mb-4 text-center text-gray-800">{cryptoInfo.name}</h1>
+                <div className="flex justify-center items-center mb-6">
+                    <img src={cryptoInfo.logo} alt={`${cryptoInfo.name} logo`} className="w-16 h-16 mr-4" />
+                    <a href={cryptoInfo.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline text-lg">Official Website</a>
+                </div>
                 <LiveChart symbol={id} /> {/* Use the LiveChart component */}
             </div>
         </div>
