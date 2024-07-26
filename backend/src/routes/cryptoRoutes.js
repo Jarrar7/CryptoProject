@@ -37,9 +37,6 @@ const coinNameMap = {
     LINK: 'chainlink'
 };
 
-
-
-
 router.get('/all', async (req, res) => {
     try {
         const fetch = (await import('node-fetch')).default;
@@ -133,16 +130,25 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/historical/:symbol', async (req, res) => {
-    const { symbol } = req.params;
+router.get('/historical/:symbol/:interval', async (req, res) => {
+    const { symbol, interval } = req.params;
     const coinName = coinNameMap[symbol.toUpperCase()];
+    const validIntervals = ['1', '30', '365'];
+
     if (!coinName) {
         return res.status(400).json({ error: `Unsupported symbol: ${symbol}` });
     }
 
+    if (!validIntervals.includes(interval)) {
+        return res.status(400).json({ error: `Unsupported interval: ${interval}` });
+    }
+
     try {
-        const response = await axios.get(`https://mdata.mtw-testnet.com/item/${coinName}/30`);
-        console.log(`Response for ${symbol}:`, response.data);
+        const response = await axios.get(`https://mdata.mtw-testnet.com/item/${coinName}/${interval}`);
+        console.log(`Response for ${symbol} with interval ${interval}:`, response.data);
+
+        // Log the full response to understand its structure
+        console.log('Full API response:', JSON.stringify(response.data, null, 2));
 
         if (Array.isArray(response.data)) {
             const historicalData = response.data.map(item => ({
@@ -152,16 +158,15 @@ router.get('/historical/:symbol', async (req, res) => {
                 low: item[3],
                 close: item[4]
             }));
-            const livePrice = livePrices[symbol.toUpperCase()] || null;
 
-            res.json({ historicalData, livePrice });
+            res.json({ historicalData });
         } else {
             console.error(`Unexpected response structure for ${symbol}:`, response.data);
-            res.status(500).json({ error: 'Unexpected response structure' });
+            res.status(500).json({ error: 'Unexpected response structure', data: response.data });
         }
     } catch (error) {
-        console.error(`Error fetching historical data for ${symbol}:`, error);
-        res.status(500).json({ error: 'Failed to fetch historical data' });
+        console.error(`Error fetching historical data for ${symbol}:`, error.response ? error.response.data : error.message);
+        res.status(500).json({ error: 'Failed to fetch historical data', details: error.response ? error.response.data : error.message });
     }
 });
 

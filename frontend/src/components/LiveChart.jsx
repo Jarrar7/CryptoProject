@@ -10,18 +10,24 @@ const LiveChart = ({ symbol }) => {
             label: `${symbol} Price`,
             data: [],
             fill: false,
-            borderColor: '#4A90E2', // Updated line color
+            borderColor: '#4A90E2',
             borderWidth: 2,
-            tension: 0.4, // Smooth the line
-            pointRadius: 0, // Remove the dots
+            tension: 0.4,
+            pointRadius: 0,
         }]
     });
+    const [interval, setInterval] = useState('1');
+    const [error, setError] = useState(null);
 
     const fetchHistoricalData = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/crypto/historical/${symbol}`);
+            const response = await fetch(`http://localhost:5000/api/crypto/historical/${symbol}/${interval}`);
             const data = await response.json();
             console.log('Fetched Historical Data:', data);
+
+            if (!data.historicalData) {
+                throw new Error('Unexpected response structure');
+            }
 
             const labels = data.historicalData.map(point => new Date(point.timestamp));
             const prices = data.historicalData.map(point => point.close);
@@ -32,16 +38,17 @@ const LiveChart = ({ symbol }) => {
                     label: `${symbol} Price`,
                     data: prices,
                     fill: false,
-                    borderColor: '#4A90E2', // Updated line color
+                    borderColor: '#4A90E2',
                     borderWidth: 2,
-                    tension: 0.4, // Smooth the line
-                    pointRadius: 0, // Remove the dots
+                    tension: 0.4,
+                    pointRadius: 0,
                 }]
             });
         } catch (error) {
             console.error('Error fetching historical data:', error);
+            setError(error.message);
         }
-    }, [symbol]);
+    }, [symbol, interval]);
 
     useEffect(() => {
         if (symbol) {
@@ -54,7 +61,7 @@ const LiveChart = ({ symbol }) => {
             x: {
                 type: 'time',
                 time: {
-                    unit: 'day', // Change x-axis to date
+                    unit: interval === '1' ? 'day' : interval === '30' ? 'day' : 'month',
                     tooltipFormat: 'MM/dd/yyyy',
                 },
                 grid: {
@@ -62,7 +69,7 @@ const LiveChart = ({ symbol }) => {
                     color: 'rgba(200, 200, 200, 0.2)',
                 },
                 ticks: {
-                    color: '#666666', // Updated x-axis tick color
+                    color: '#666666',
                 },
             },
             y: {
@@ -72,7 +79,7 @@ const LiveChart = ({ symbol }) => {
                     color: 'rgba(200, 200, 200, 0.2)',
                 },
                 ticks: {
-                    color: '#666666', // Updated y-axis tick color
+                    color: '#666666',
                 },
             },
         },
@@ -80,10 +87,10 @@ const LiveChart = ({ symbol }) => {
             legend: {
                 display: true,
                 labels: {
-                    color: '#333333', // Updated legend color
+                    color: '#333333',
                     font: {
-                        size: 14, // Updated legend font size
-                        weight: 'bold', // Updated legend font weight
+                        size: 14,
+                        weight: 'bold',
                     },
                 },
             },
@@ -93,20 +100,31 @@ const LiveChart = ({ symbol }) => {
                         return ` ${context.dataset.label}: ${context.formattedValue}`;
                     }
                 },
-                backgroundColor: '#ffffff', // Updated tooltip background color
-                titleColor: '#4A90E2', // Updated tooltip title color
-                bodyColor: '#333333', // Updated tooltip body color
-                borderColor: '#cccccc', // Updated tooltip border color
-                borderWidth: 1, // Updated tooltip border width
+                backgroundColor: '#ffffff',
+                titleColor: '#4A90E2',
+                bodyColor: '#333333',
+                borderColor: '#cccccc',
+                borderWidth: 1,
             }
         },
     };
 
     return (
         <div className="bg-white shadow-md rounded-lg p-6 max-w-3xl mx-auto mt-8">
-            <div className="relative">
-                <Line data={chartData} options={chartOptions} />
+            <div className="flex justify-end mb-4">
+                <select value={interval} onChange={e => setInterval(e.target.value)} className="border p-2 rounded">
+                    <option value="1">1 Day</option>
+                    <option value="30">30 Days</option>
+                    <option value="365">1 Year</option>
+                </select>
             </div>
+            {error ? (
+                <p className="text-red-500">{error}</p>
+            ) : (
+                <div className="relative">
+                    <Line data={chartData} options={chartOptions} />
+                </div>
+            )}
         </div>
     );
 };
