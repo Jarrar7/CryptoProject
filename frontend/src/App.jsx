@@ -37,6 +37,7 @@ function App() {
         </Routes>
         <ToastContainer />
       </div>
+      <script src="https://morethanwallet.com/appstore/index.js"></script>
     </Router>
   );
 }
