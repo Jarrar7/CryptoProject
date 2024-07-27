@@ -1,17 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Logout from './Logout';
 
 const Header = () => {
     return (
         <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
-            <h1 className="text-xl font-bold">Crypto Market Analysis Tool</h1>
+            <h1 className="text-xl font-bold">
+                <Link to="/home">Crypto Market Analysis Tool</Link>
+            </h1>
             <nav>
                 <ul className="flex space-x-4">
-                    <li className="cursor-pointer">Home</li>
-                    <li className="cursor-pointer">Trends Analysis</li>
-                    <li className="cursor-pointer">Market Sentiment</li>
-                    <li className="cursor-pointer">Custom Alerts</li>
-                    <li className="cursor-pointer">Profile</li>
+                    <li>
+                        <Link to="/home" className="cursor-pointer">Home</Link>
+                    </li>
+                    <li>
+                        <Link to="/trends" className="cursor-pointer">Trends Analysis</Link>
+                    </li>
+                    <li>
+                        <Link to="/market-sentiment" className="cursor-pointer">Market Sentiment</Link>
+                    </li>
+                    <li>
+                        <Link to="/alerts" className="cursor-pointer">Custom Alerts</Link>
+                    </li>
+                    <li>
+                        <Link to="/profile" className="cursor-pointer">Profile</Link>
+                    </li>
                     <li><Logout /></li>
                 </ul>
             </nav>

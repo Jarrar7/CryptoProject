@@ -33,6 +33,10 @@ function App() {
             </>
           } />
           <Route path="/crypto/:id" element={<CryptoDetail />} />
+          <Route path="/trends" element={<div>Trends Analysis Page</div>} />
+          <Route path="/market-sentiment" element={<div>Market Sentiment Page</div>} />
+          <Route path="/alerts" element={<div>Custom Alerts Page</div>} />
+          <Route path="/profile" element={<div>Profile Page</div>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         <ToastContainer />
