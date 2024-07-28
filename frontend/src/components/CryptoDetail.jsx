@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import LiveChart from './LiveChart'; // Import the LiveChart component
 import Header from './Header'; // Import the Header component
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 const CryptoDetail = () => {
     const { id } = useParams();
@@ -12,7 +14,7 @@ const CryptoDetail = () => {
     useEffect(() => {
         const fetchCryptoInfo = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/crypto/${id}`);
+                const response = await fetch(`${API_URL}/api/crypto/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

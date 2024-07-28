@@ -3,6 +3,9 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
+
 const LiveChart = ({ symbol }) => {
     const [chartData, setChartData] = useState({
         labels: [],
@@ -21,7 +24,7 @@ const LiveChart = ({ symbol }) => {
 
     const fetchHistoricalData = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/crypto/historical/${symbol}/${interval}`);
+            const response = await fetch(`${API_URL}/api/crypto/historical/${symbol}/${interval}`);
             const data = await response.json();
             console.log('Fetched Historical Data:', data);
 

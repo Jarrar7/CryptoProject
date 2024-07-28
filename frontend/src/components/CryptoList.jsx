@@ -5,11 +5,13 @@ const CryptoList = () => {
     const [cryptos, setCryptos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const API_URL = process.env.REACT_APP_API_URL;
+
 
     useEffect(() => {
         const fetchCryptos = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/crypto/all');
+                const response = await fetch(`${API_URL}/api/crypto/all`);
                 if (!response.ok) {
                     throw new Error(`Error fetching crypto data: ${response.statusText}`);
                 }
@@ -31,7 +33,7 @@ const CryptoList = () => {
         };
 
         fetchCryptos();
-    }, []);
+    }, [API_URL]);
 
     if (loading) {
         return <p>Loading...</p>;

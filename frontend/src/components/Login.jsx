@@ -4,6 +4,8 @@ import logo from '../assets/logo.png'; // Adjust the path if necessary
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,7 +15,7 @@ const Login = () => {
         e.preventDefault();
         try {
             console.log('Sending login request with:', { email, password });
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
