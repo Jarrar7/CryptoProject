@@ -23,5 +23,7 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log('MongoDB connection error:', err));
 
+// Use the port provided by Vercel's environment or default to 5000
 const PORT = process.env.PORT || 5000;
+console.log(`Server will run on port ${PORT}`); // Log the port number
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
