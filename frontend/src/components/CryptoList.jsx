@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CryptoList = () => {
     const [cryptos, setCryptos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const API_URL = process.env.REACT_APP_API_URL;
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCryptos = async () => {
@@ -16,14 +16,7 @@ const CryptoList = () => {
                     throw new Error(`Error fetching crypto data: ${response.statusText}`);
                 }
                 const data = await response.json();
-                console.log('Fetched cryptos with additional info:', data);
-
-                if (Array.isArray(data)) {
-                    setCryptos(data);
-                } else {
-                    console.error('Data is not an array:', data);
-                    throw new Error('Data is not an array');
-                }
+                setCryptos(data);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -55,16 +48,16 @@ const CryptoList = () => {
                             ) : (
                                 <div className="w-10 h-10 mr-4 bg-gray-300 rounded-full" />
                             )}
-                            <Link to={`/crypto/${crypto.id}`} className="text-blue-500 flex-1">
-                                <span className="font-semibold">{crypto.name}</span>: {crypto.price} USD
-                            </Link>
+                            <button onClick={() => navigate(`/crypto/${crypto.id}`)} className="text-blue-500 font-semibold flex-1">
+                                {crypto.name}: {crypto.price} USD
+                            </button>
                         </div>
-                        <div className="flex flex-col ml-14">
-                            <span className="font-semibold">{crypto.name}</span>
-                            <a href={crypto.website} className="text-blue-500" target="_blank" rel="noopener noreferrer">
-                                {crypto.website}
-                            </a>
-                            <p className="mt-2 text-gray-700">{crypto.summary}</p>
+                        <button onClick={() => navigate(`/crypto/${crypto.id}?showGraph=true`)} className="custom-button mb-2">
+                            Show Graph
+                        </button>
+                        <div>
+                            <span className="font-semibold">{crypto.name} Details:</span>
+                            <p className="text-gray-700">{crypto.summary || 'No description available.'}</p>
                         </div>
                     </li>
                 ))}

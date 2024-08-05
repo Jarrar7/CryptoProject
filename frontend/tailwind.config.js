@@ -1,8 +1,9 @@
+// tailwind.config.js
 module.exports = {
+  darkMode: 'class', // או 'media', אם אתה רוצה להשתמש במדיה.
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
-  darkMode: 'class', // Enable dark mode
   theme: {
     extend: {},
   },
