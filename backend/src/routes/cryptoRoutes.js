@@ -1,31 +1,9 @@
+// backend/src/routes/someRoute.js
+
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const WebSocket = require('ws');
-
-// WebSocket setup
-const livePrices = {};
-const socket = new WebSocket('wss://mtickers.mtw-testnet.com/');
-
-socket.onopen = () => {
-    console.log('WebSocket connection opened');
-};
-
-socket.onmessage = (e) => {
-    const data = JSON.parse(e.data);
-    //console.log('Received data from WebSocket:', data);
-    Object.keys(data).forEach(key => {
-        livePrices[key] = data[key].p;
-    });
-};
-
-socket.onclose = () => {
-    console.log('WebSocket connection closed');
-};
-
-socket.onerror = (error) => {
-    console.error('WebSocket error:', error);
-};
+const { getCryptoData } = require('../websocket');
 
 const coinNameMap = {
     BTC: 'bitcoin',
@@ -39,6 +17,7 @@ const coinNameMap = {
 
 router.get('/all', async (req, res) => {
     try {
+        const cryptoData = getCryptoData();
         const fetch = (await import('node-fetch')).default;
         const response = await fetch('https://mtickers.mtw-testnet.com/tickers/all');
         const data = await response.json();

@@ -48,9 +48,9 @@ const CryptoList = () => {
                             ) : (
                                 <div className="w-10 h-10 mr-4 bg-gray-300 rounded-full" />
                             )}
-                            <button onClick={() => navigate(`/crypto/${crypto.id}`)} className="text-blue-500 font-semibold flex-1">
+                            <label className="text-blue-500 font-semibold flex-1">
                                 {crypto.name}: {crypto.price} USD
-                            </button>
+                            </label>
                         </div>
                         <button onClick={() => navigate(`/crypto/${crypto.id}?showGraph=true`)} className="custom-button mb-2">
                             Show Graph
