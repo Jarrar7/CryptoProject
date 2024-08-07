@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Header from './Header';
 const API_URL = process.env.REACT_APP_API_URL;
 
-
 const CustomAlerts = () => {
     const [cryptoData, setCryptoData] = useState({});
     const [selectedCrypto, setSelectedCrypto] = useState('');
@@ -15,7 +14,7 @@ const CustomAlerts = () => {
             try {
                 const response = await fetch(`${API_URL}/api/CustomAlerts`);
                 const data = await response.json();
-                console.log('Fetched crypto data:', data); // Debug log
+                //console.log('Fetched crypto data:', data); // Debug log
                 setCryptoData(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
