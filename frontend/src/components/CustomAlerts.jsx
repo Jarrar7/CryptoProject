@@ -1,7 +1,7 @@
-// src/components/CustomAlerts.jsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from './Header';
+const API_URL = process.env.REACT_APP_API_URL;
+
 
 const CustomAlerts = () => {
     const [cryptoData, setCryptoData] = useState({});
@@ -11,24 +11,21 @@ const CustomAlerts = () => {
     const [activeAlerts, setActiveAlerts] = useState([]);
 
     useEffect(() => {
-        const socket = new WebSocket("wss://mtickers.mtw-testnet.com/");
-
-        socket.onopen = () => {
-            console.log('WebSocket connection opened');
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/CustomAlerts`);
+                const data = await response.json();
+                console.log('Fetched crypto data:', data); // Debug log
+                setCryptoData(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
 
-        socket.onmessage = (e) => {
-            const data = JSON.parse(e.data);
-            setCryptoData(data);
-        };
+        fetchData();
+        const interval = setInterval(fetchData, 1000); // Fetch data every second
 
-        socket.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
-
-        return () => {
-            socket.close();
-        };
+        return () => clearInterval(interval);
     }, []);
 
     // Function to create a new alert
@@ -44,10 +41,10 @@ const CustomAlerts = () => {
         }
     };
 
-    // Function to delete an alert
-    const deleteAlert = (index) => {
-        setActiveAlerts(activeAlerts.filter((_, i) => i !== index));
-    };
+    // Function to delete an alert, memoized with useCallback
+    const deleteAlert = useCallback((index) => {
+        setActiveAlerts((alerts) => alerts.filter((_, i) => i !== index));
+    }, []);
 
     // Check alerts each time cryptoData changes
     useEffect(() => {
@@ -63,7 +60,7 @@ const CustomAlerts = () => {
                 deleteAlert(index);
             }
         });
-    }, [cryptoData, activeAlerts]);
+    }, [cryptoData, activeAlerts, deleteAlert]);
 
     return (
         <div>

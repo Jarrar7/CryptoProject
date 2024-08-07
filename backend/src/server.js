@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const cryptoRoutes = require('./routes/cryptoRoutes'); // Import the new routes
 const TrendsAnalysisRoute = require('./routes/TrendsAnalysisRoute');
+const CustomAlertsRoute = require('./routes/CustomAlerts')
 
 const app = express();
 
@@ -15,7 +16,9 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/crypto', cryptoRoutes); // Use the new routes
-app.use('/api/TrendsAnalysis', TrendsAnalysisRoute)
+app.use('/api/TrendsAnalysis', TrendsAnalysisRoute);
+app.use('/api/CustomAlertsRoute', CustomAlertsRoute);
+
 
 // Log the MongoDB URI to check if it is being read correctly
 console.log('MongoDB URI:', process.env.MONGO_URI);
