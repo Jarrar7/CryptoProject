@@ -13,6 +13,7 @@ import CustomAlerts from './components/CustomAlerts'; // וודא שהיבוא �
 import './index.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CryptoNews from './components/CryptoNews';
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -39,7 +40,7 @@ function App() {
           <Route path="/crypto/:id" element={<CryptoDetail />} />
           <Route path="/trends" element={<TrendsAnalysis />} />
           <Route path="/alerts" element={<CustomAlerts />} /> {/* הוסף נתיב ל CustomAlerts */}
-          <Route path="/market-sentiment" element={<div>Market Sentiment Page</div>} />
+          <Route path="/crypto-news" element={<CryptoNews />} />
           <Route path="/profile" element={<div>Profile Page</div>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

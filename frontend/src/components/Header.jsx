@@ -14,10 +14,10 @@ const Header = () => {
                         <Link to="/home" className="cursor-pointer">Home</Link>
                     </li>
                     <li>
-                        <Link to="/trends" className="cursor-pointer">Trends Analysis</Link>
+                        <Link to="/trends" className="cursor-pointer">Trends</Link>
                     </li>
                     <li>
-                        <Link to="/market-sentiment" className="cursor-pointer">Market Sentiment</Link>
+                        <Link to="/crypto-news" className="cursor-pointer">News</Link>
                     </li>
                     <li>
                         <Link to="/alerts" className="cursor-pointer">Custom Alerts</Link>
