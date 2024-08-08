@@ -1,10 +1,6 @@
-// backend/src/websocket.js
-
 const WebSocket = require('ws');
 
-let cryptoData = {};
-
-// Setup WebSocket connection
+const livePrices = {};
 const socket = new WebSocket('wss://mtickers.mtw-testnet.com/');
 
 socket.onopen = () => {
@@ -12,12 +8,16 @@ socket.onopen = () => {
 };
 
 socket.onmessage = (e) => {
+    console.log('WebSocket message received:', e.data);
     try {
         const data = JSON.parse(e.data);
-        //console.log('Received data:', data);
+        console.log('Parsed data:', data);
 
-        // Store the data
-        cryptoData = data;
+        Object.keys(data).forEach(key => {
+            livePrices[key] = data[key].p;
+        });
+
+        console.log('Updated livePrices:', livePrices);
     } catch (error) {
         console.error('Error parsing message data:', error);
     }
@@ -31,6 +31,6 @@ socket.onerror = (error) => {
     console.error('WebSocket error:', error);
 };
 
-const getCryptoData = () => cryptoData;
+const getCryptoData = () => livePrices;
 
 module.exports = { getCryptoData };
