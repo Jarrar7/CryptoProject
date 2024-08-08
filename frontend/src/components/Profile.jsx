@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from './Header'
 import { toast } from 'react-toastify';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Profile = () => {
     const [user, setUser] = useState({});
