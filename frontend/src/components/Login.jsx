@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo.png'; // Adjust the path if necessary
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,6 +11,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -31,10 +34,15 @@ const Login = () => {
 
             const data = await response.json();
             localStorage.setItem('token', data.token);
+            localStorage.setItem('userEmail', email); // Store the user email
             navigate('/home');
         } catch (error) {
             console.error('Login failed:', error.message);
         }
+    };
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -58,18 +66,24 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <div className="mb-6">
+                    <div className="mb-6 relative">
                         <label className="block text-gray-700 mb-2" htmlFor="password">
                             Password
                         </label>
                         <input
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             id="password"
                             className="w-full px-3 py-2 border rounded"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <span
+                            onClick={toggleShowPassword}
+                            className="absolute right-3 top-10 cursor-pointer"
+                        >
+                            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                        </span>
                     </div>
                     <button
                         type="submit"
