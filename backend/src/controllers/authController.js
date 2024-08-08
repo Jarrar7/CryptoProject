@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        console.log('Register request:', { email, password });
+        const { name, email, password } = req.body;
+        console.log('Register request:', { name, email, password });
 
         // Save user with plain text password
-        const user = new User({ email, password });
+        const user = new User({ name, email, password });
         await user.save();
 
         res.status(201).json({ message: 'User registered successfully' });
