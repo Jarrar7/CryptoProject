@@ -60,6 +60,7 @@ const Header = () => {
                         <Logout />
                     </li>
                 </ul>
+                <ThemeToggle /> {/* Add the ThemeToggle component here */}
             </nav>
         </header>
     );

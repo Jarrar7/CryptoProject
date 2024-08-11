@@ -64,14 +64,14 @@ const CustomAlerts = () => {
     return (
         <div>
             <Header /> {/* Add the Header component */}
-            <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
+            <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center">
                 <h2 className="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">Create a Price Alert</h2>
                 <div className="max-w-md mx-auto">
                     <div className="mb-4">
                         <label htmlFor="crypto-select" className="block text-lg font-semibold">Choose a cryptocurrency:</label>
                         <select
                             id="crypto-select"
-                            className="crypto-combobox"
+                            className="w-full h-12 p-2 text-base border rounded-md border-gray-300 bg-gray-50"
                             value={selectedCrypto}
                             onChange={(e) => setSelectedCrypto(e.target.value)}
                         >
@@ -86,7 +86,7 @@ const CustomAlerts = () => {
                         <input
                             type="number"
                             id="alert-price"
-                            className="price-input"
+                            className="w-60 h-12 p-2 text-base border rounded-md border-gray-300 bg-gray-50"
                             value={alertPrice}
                             onChange={(e) => setAlertPrice(e.target.value)}
                             placeholder="Enter price for alert"
@@ -96,7 +96,7 @@ const CustomAlerts = () => {
                         <label htmlFor="alert-type" className="block text-lg font-semibold">Alert Type:</label>
                         <select
                             id="alert-type"
-                            className="crypto-combobox"
+                            className="w-full h-12 p-2 text-base border rounded-md border-gray-300 bg-gray-50"
                             value={alertType}
                             onChange={(e) => setAlertType(e.target.value)}
                         >
@@ -106,14 +106,14 @@ const CustomAlerts = () => {
                         </select>
                     </div>
                     <button
-                        className="create-alert-button"
+                        className="w-full h-12 p-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
                         onClick={createAlert}
                     >
                         Create Alert
                     </button>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 w-full max-w-md">
                     <h3 className="text-3xl font-bold mb-4 text-center text-gray-800 dark:text-gray-100">Active Alerts</h3>
                     <ul className="space-y-4">
                         {activeAlerts.map((alert, index) => (
@@ -133,5 +133,6 @@ const CustomAlerts = () => {
         </div>
     );
 };
+
 
 export default CustomAlerts;
