@@ -38,10 +38,28 @@ const login = async (req, res) => {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
 
-        const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
+        // Generate JWT token
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || 'your_jwt_secret', { expiresIn: '1h' });
 
         console.log('Login successful for user:', email);
-        res.json({ token });
+
+        // Set the token as a secure, HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true, // Prevents JavaScript from accessing the token
+            secure: process.env.NODE_ENV === 'production', // Secure cookie in production (HTTPS)
+            sameSite: 'Strict', // Protects against CSRF attacks
+            maxAge: 60 * 60 * 1000 // 1 hour
+        });
+
+        // Set the user email as a non-httpOnly cookie if needed
+        res.cookie('userEmail', user.email, {
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 60 * 60 * 1000 // 1 hour
+        });
+
+        // Send a response back to the client
+        res.json({ message: 'Login successful' });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Login failed' });
