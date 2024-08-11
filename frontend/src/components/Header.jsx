@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import Logout from './Logout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import ThemeToggle from './ThemeToggle'; // Import ThemeToggle
+
+
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,8 +62,8 @@ const Header = () => {
                     <li className="mb-4 lg:mb-0">
                         <Logout />
                     </li>
+                    <ThemeToggle />
                 </ul>
-                <ThemeToggle /> {/* Add the ThemeToggle component here */}
             </nav>
         </header>
     );
