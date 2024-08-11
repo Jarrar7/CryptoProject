@@ -1,97 +1,101 @@
 import React, { useEffect, useState, useCallback } from 'react'; // Import necessary React hooks
 import { Line } from 'react-chartjs-2'; // Import the Line chart component from react-chartjs-2
 import 'chart.js/auto'; // Auto-import Chart.js components
-import 'chartjs-adapter-date-fns'; // Import the date adapter for date formatting
+import 'chartjs-adapter-date-fns'; // Import date adapter for Chart.js to handle dates
 
-// Base URL for the API, sourced from environment variables
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL; // Get the base API URL from environment variables
 
 const LiveChart = ({ symbol }) => {
-    // State to store the data for the chart, initialized with empty labels and dataset
+    // State to store the chart data, including labels and dataset configuration
     const [chartData, setChartData] = useState({
-        labels: [],
+        labels: [], // Labels for the x-axis (dates)
         datasets: [{
-            label: `${symbol} Price`, // Label for the dataset
-            data: [], // Initial empty data array
-            fill: false, // Disable fill under the line
-            borderColor: '#4A90E2', // Line color
-            borderWidth: 2, // Line width
-            tension: 0.4, // Line curve tension
-            pointRadius: 0, // Disable point markers
+            label: `${symbol} Price`, // Dataset label for the legend
+            data: [], // Data points for the chart
+            fill: true, // Fill the area under the line
+            borderColor: '#2563EB', // Color of the line (blue)
+            borderWidth: 3, // Thickness of the line
+            tension: 0.4, // Smooth the line curve
+            pointRadius: 0, // No visible points on the line
+            backgroundColor: 'rgba(37, 99, 235, 0.3)', // Background color under the line
         }]
     });
-    // State to track the selected interval for historical data (1 day, 30 days, or 1 year)
+
+    // State to track the selected time interval for the chart (e.g., 1 day, 30 days, 1 year)
     const [interval, setInterval] = useState('1');
-    // State to handle any errors that occur during data fetching
+    // State to handle and display errors
     const [error, setError] = useState(null);
 
-    // Function to fetch historical data from the API, memoized with useCallback
+    // Function to fetch historical data from the API based on the selected symbol and interval
     const fetchHistoricalData = useCallback(async () => {
         try {
-            // Send a GET request to fetch historical data for the specified symbol and interval
+            // Make a GET request to the API to fetch historical data
             const response = await fetch(`${API_URL}/api/crypto/historical/${symbol}/${interval}`);
             const data = await response.json();
-            console.log('Fetched Historical Data:', data); // Debug log
 
+            // Check if the expected data structure is returned
             if (!data.historicalData) {
-                throw new Error('Unexpected response structure'); // Handle unexpected response structure
+                throw new Error('Unexpected response structure');
             }
 
-            // Map through the fetched data to create labels and prices arrays for the chart
+            // Map the fetched data to extract timestamps (labels) and prices (data points)
             const labels = data.historicalData.map(point => new Date(point.timestamp));
             const prices = data.historicalData.map(point => point.close);
 
-            // Update the chart data state with the new labels and prices
+            // Update the chart data state with the new labels and data points
             setChartData({
                 labels,
                 datasets: [{
                     label: `${symbol} Price`,
                     data: prices,
-                    fill: false,
-                    borderColor: '#4A90E2',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    pointRadius: 0,
+                    fill: true, // Fill the area under the line
+                    borderColor: '#2563EB', // Blue for the line
+                    borderWidth: 3, // Thicker line
+                    tension: 0.4, // Smooth curve
+                    pointRadius: 0, // No points on the line
+                    backgroundColor: 'rgba(37, 99, 235, 0.3)', // Light blue background under the line
                 }]
             });
         } catch (error) {
-            console.error('Error fetching historical data:', error); // Log the error
-            setError(error.message); // Set the error message in the state
+            console.error('Error fetching historical data:', error);
+            setError(error.message); // Set the error state if fetching fails
         }
-    }, [symbol, interval]); // Depend on symbol and interval to refetch data when they change
+    }, [symbol, interval]); // Dependencies for the useCallback hook
 
-    // useEffect hook to fetch data when the component mounts or when the symbol or interval changes
+    // useEffect hook to fetch historical data when the symbol or interval changes
     useEffect(() => {
         if (symbol) {
-            fetchHistoricalData(); // Fetch the historical data
+            fetchHistoricalData(); // Fetch data when the component mounts or dependencies change
         }
-    }, [symbol, fetchHistoricalData]);
+    }, [symbol, fetchHistoricalData]); // Dependencies for the useEffect hook
 
     // Configuration options for the chart
     const chartOptions = {
+        responsive: true, // Make the chart responsive
+        maintainAspectRatio: false, // Allow the chart to fill the container's aspect ratio
         scales: {
             x: {
-                type: 'time', // Use time scale for the x-axis
+                type: 'time', // x-axis is a time scale
                 time: {
-                    unit: interval === '1' ? 'day' : interval === '30' ? 'day' : 'month', // Adjust time unit based on interval
-                    tooltipFormat: 'MM/dd/yyyy', // Tooltip format for the date
+                    unit: interval === '1' ? 'day' : interval === '30' ? 'day' : 'month', // Unit depends on selected interval
+                    tooltipFormat: 'MM/dd/yyyy', // Format for the tooltip displaying dates
                 },
                 grid: {
                     display: true,
-                    color: 'rgba(200, 200, 200, 0.2)', // Grid line color
+                    color: 'rgba(37, 99, 235, 0.2)', // Grid line color (lighter blue)
                 },
                 ticks: {
-                    color: '#666666', // Tick color
+                    color: '#93C5FD', // Color for the tick marks (lighter blue)
                 },
             },
             y: {
-                beginAtZero: false, // Do not start y-axis at zero
+                beginAtZero: false, // Do not start the y-axis at zero
                 grid: {
                     display: true,
-                    color: 'rgba(200, 200, 200, 0.2)', // Grid line color
+                    color: 'rgba(37, 99, 235, 0.2)', // Grid line color (lighter blue)
                 },
                 ticks: {
-                    color: '#666666', // Tick color
+                    color: '#93C5FD', // Color for the tick marks (lighter blue)
                 },
             },
         },
@@ -99,47 +103,56 @@ const LiveChart = ({ symbol }) => {
             legend: {
                 display: true, // Display the legend
                 labels: {
-                    color: '#333333', // Legend label color
+                    color: '#2563EB', // Color of the legend labels (blue)
                     font: {
-                        size: 14,
-                        weight: 'bold',
+                        size: 14, // Font size for the legend labels
+                        weight: 'bold', // Font weight for the legend labels
                     },
                 },
             },
             tooltip: {
                 callbacks: {
                     label: function (context) {
-                        return ` ${context.dataset.label}: ${context.formattedValue}`; // Tooltip label format
+                        return ` ${context.dataset.label}: ${context.formattedValue}`; // Tooltip format for data points
                     }
                 },
-                backgroundColor: '#ffffff', // Tooltip background color
-                titleColor: '#4A90E2', // Tooltip title color
-                bodyColor: '#333333', // Tooltip body color
-                borderColor: '#cccccc', // Tooltip border color
-                borderWidth: 1, // Tooltip border width
+                backgroundColor: '#1E40AF', // Background color for the tooltip (dark blue)
+                titleColor: '#93C5FD', // Color for the tooltip title (light blue)
+                bodyColor: '#FFFFFF', // Color for the tooltip body (white)
+                borderColor: '#3B82F6', // Border color for the tooltip (blue)
+                borderWidth: 1, // Border width for the tooltip
             }
         },
     };
 
     return (
-        <div className="bg-white shadow-md rounded-lg p-6 max-w-3xl mx-auto mt-8">
-            <div className="flex justify-end mb-4">
-                {/* Dropdown to select the interval for the chart */}
-                <select value={interval} onChange={e => setInterval(e.target.value)} className="border p-2 rounded">
+        // Container for the chart with padding, background color, and responsive styling
+        <div className="bg-gray-900 shadow-lg rounded-lg p-4 sm:p-6 lg:p-8 max-w-full mx-auto mt-10" style={{ height: '400px' }}>
+            {/* Header section with the chart title and interval selector */}
+            <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl sm:text-2xl font-semibold text-white">{symbol} Price Chart</h3>
+                {/* Dropdown for selecting the time interval */}
+                <select
+                    value={interval}
+                    onChange={e => setInterval(e.target.value)}
+                    className="border border-gray-600 p-2 rounded bg-gray-800 text-gray-200"
+                >
                     <option value="1">1 Day</option>
                     <option value="30">30 Days</option>
                     <option value="365">1 Year</option>
                 </select>
             </div>
+            {/* Display error message if there's an error fetching data */}
             {error ? (
-                <p className="text-red-500">{error}</p> // Display error message if there is an error
+                <p className="text-red-500">{error}</p>
             ) : (
-                <div className="relative">
-                    <Line data={chartData} options={chartOptions} /> {/* Render the Line chart */}
+                // Render the Line chart with the data and options
+                <div className="relative h-full">
+                    <Line data={chartData} options={chartOptions} />
                 </div>
             )}
         </div>
     );
 };
 
-export default LiveChart; // Export the component for use in other parts of the application
+export default LiveChart; // Export the LiveChart component for use in other parts of the application

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react'; // Import necessary React hooks
 import Header from './Header'; // Import the Header component
 
@@ -38,7 +37,8 @@ const CustomAlerts = () => {
 
     // Function to create a new alert
     const createAlert = () => {
-        if (selectedCrypto && alertPrice && alertType) { // Check if all required fields are filled
+        // Check if all required fields are filled
+        if (selectedCrypto && alertPrice && alertType) {
             const newAlert = {
                 crypto: selectedCrypto, // The selected cryptocurrency
                 price: parseFloat(alertPrice), // The alert price
@@ -59,7 +59,8 @@ const CustomAlerts = () => {
     // useEffect hook to check alerts each time the cryptoData or activeAlerts change
     useEffect(() => {
         activeAlerts.forEach((alert, index) => {
-            const currentPrice = parseFloat(cryptoData[alert.crypto]?.p); // Get the current price of the selected cryptocurrency
+            // Get the current price of the selected cryptocurrency
+            const currentPrice = parseFloat(cryptoData[alert.crypto]?.p);
 
             // Check if the alert conditions are met
             if (
@@ -77,18 +78,18 @@ const CustomAlerts = () => {
     return (
         <div>
             <Header /> {/* Render the Header component */}
-            <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center">
-                <h2 className="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">
+            <div className="p-6 bg-gradient-to-br from-blue-100 via-blue-200 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 min-h-screen flex flex-col items-center">
+                <h2 className="text-4xl font-extrabold mb-8 text-center text-gray-800 dark:text-gray-100">
                     Create a Price Alert
                 </h2>
-                <div className="max-w-md mx-auto">
+                <div className="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-300 dark:border-gray-700">
                     <div className="mb-4">
-                        <label htmlFor="crypto-select" className="block text-lg font-semibold">
+                        <label htmlFor="crypto-select" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">
                             Choose a cryptocurrency:
                         </label>
                         <select
                             id="crypto-select"
-                            className="w-full h-12 p-2 text-base border rounded-md border-gray-300 bg-gray-50"
+                            className="w-full h-12 p-2 text-base border rounded-md border-gray-400 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                             value={selectedCrypto}
                             onChange={(e) => setSelectedCrypto(e.target.value)} // Update the selected cryptocurrency
                         >
@@ -100,25 +101,25 @@ const CustomAlerts = () => {
                         </select>
                     </div>
                     <div className="mb-4">
-                        <label htmlFor="alert-price" className="block text-lg font-semibold">
+                        <label htmlFor="alert-price" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">
                             Alert Price ($):
                         </label>
                         <input
                             type="number"
                             id="alert-price"
-                            className="w-60 h-12 p-2 text-base border rounded-md border-gray-300 bg-gray-50"
+                            className="w-full h-12 p-2 text-base border rounded-md border-gray-400 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                             value={alertPrice}
                             onChange={(e) => setAlertPrice(e.target.value)} // Update the alert price
                             placeholder="Enter price for alert"
                         />
                     </div>
                     <div className="mb-4">
-                        <label htmlFor="alert-type" className="block text-lg font-semibold">
+                        <label htmlFor="alert-type" className="block text-lg font-semibold text-gray-700 dark:text-gray-300">
                             Alert Type:
                         </label>
                         <select
                             id="alert-type"
-                            className="w-full h-12 p-2 text-base border rounded-md border-gray-300 bg-gray-50"
+                            className="w-full h-12 p-2 text-base border rounded-md border-gray-400 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                             value={alertType}
                             onChange={(e) => setAlertType(e.target.value)} // Update the alert type
                         >
@@ -128,7 +129,7 @@ const CustomAlerts = () => {
                         </select>
                     </div>
                     <button
-                        className="w-full h-12 p-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                        className="w-full h-12 p-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 transition duration-300"
                         onClick={createAlert} // Create a new alert on button click
                     >
                         Create Alert
@@ -144,7 +145,7 @@ const CustomAlerts = () => {
                         {activeAlerts.map((alert, index) => (
                             <li
                                 key={index}
-                                className="p-4 border rounded-lg shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 flex justify-between items-center"
+                                className="p-4 border rounded-lg shadow-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 flex justify-between items-center"
                             >
                                 <span>{alert.crypto} - {alert.type} - ${alert.price}</span>
                                 <button
@@ -162,4 +163,4 @@ const CustomAlerts = () => {
     );
 };
 
-export default CustomAlerts; // Export the component for use in other parts of the application
+export default CustomAlerts;

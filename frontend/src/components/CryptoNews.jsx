@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'; // Import necessary React hooks
 import Header from './Header'; // Import the Header component
 
@@ -83,47 +82,47 @@ const CryptoNews = () => {
         <div>
             <Header /> {/* Render the Header component */}
             <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
-                <h2 className="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">
+                <h2 className="text-5xl font-bold mb-8 text-center text-gray-800 dark:text-white">
                     Latest Crypto News
                 </h2>
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-6xl mx-auto">
                     {/* Search Input Field */}
-                    <div className="mb-4 flex justify-center">
+                    <div className="mb-8 flex justify-center">
                         <input
                             type="text"
                             placeholder="🔍 Search news..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
-                            className="w-full sm:w-1/2 p-2 px-4 text-sm rounded-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+                            className="w-full sm:w-1/2 p-3 text-lg rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-4 focus:ring-blue-500 dark:focus:ring-blue-500 transition duration-300"
                         />
                     </div>
                     {/* Display loader, error, or news articles based on the current state */}
                     {loading ? (
                         <div className="flex justify-center items-center">
-                            <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                            <div className="loader ease-linear rounded-full border-8 border-t-8 border-blue-500 dark:border-blue-300 h-16 w-16 mb-4"></div>
                         </div>
                     ) : error ? (
                         <p className="text-center text-red-500">{error}</p> // Display error message if any
                     ) : (
                         <>
-                            <ul className="space-y-4">
+                            <ul className="space-y-8">
                                 {/* Map through the filtered news articles and render each one */}
                                 {filteredNews.map((article, index) => (
                                     <li
                                         key={index}
-                                        className="p-4 border rounded-lg shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-300"
+                                        className="p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300"
                                     >
                                         {/* Link to the full article */}
                                         <a href={article.url} target="_blank" rel="noopener noreferrer">
-                                            <h3 className="text-2xl font-bold mb-2">{article.title}</h3>
+                                            <h3 className="text-3xl font-bold mb-4">{article.title}</h3>
                                             {article.urlToImage && (
                                                 <img
                                                     src={article.urlToImage}
                                                     alt={article.title}
-                                                    className="w-full h-48 object-cover rounded-lg mb-2"
+                                                    className="w-full h-64 object-cover rounded-lg mb-4"
                                                 />
                                             )}
-                                            <p className="text-gray-700 dark:text-gray-300 mb-2">
+                                            <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
                                                 {article.description}
                                             </p>
                                             <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -133,24 +132,24 @@ const CryptoNews = () => {
                                     </li>
                                 ))}
                             </ul>
-                            <div className="flex justify-between items-center mt-8">
+                            <div className="flex justify-between items-center mt-12">
                                 {/* Button to navigate to the previous page */}
                                 <button
                                     onClick={handlePrevPage}
                                     disabled={currentPage === 1} // Disable if on the first page
-                                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${currentPage === 1 && 'opacity-50 cursor-not-allowed'}`}
+                                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg ${currentPage === 1 && 'opacity-50 cursor-not-allowed'}`}
                                 >
                                     Previous
                                 </button>
                                 {/* Display current page and total pages */}
-                                <span className="text-gray-800 dark:text-gray-100">
+                                <span className="text-lg text-gray-800 dark:text-gray-100">
                                     Page {currentPage} of {totalPages}
                                 </span>
                                 {/* Button to navigate to the next page */}
                                 <button
                                     onClick={handleNextPage}
                                     disabled={currentPage === totalPages} // Disable if on the last page
-                                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${currentPage === totalPages && 'opacity-50 cursor-not-allowed'}`}
+                                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg ${currentPage === totalPages && 'opacity-50 cursor-not-allowed'}`}
                                 >
                                     Next
                                 </button>
