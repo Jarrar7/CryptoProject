@@ -37,8 +37,10 @@ const CryptoList = () => {
     }
 
     return (
-        <div className="max-w-4xl mx-auto mt-8 pb-8">
-            <h2 className="text-3xl font-bold mb-6 text-center">Available Cryptocurrencies</h2>
+        <div className="max-w-4xl mx-auto mt-8 pb-8 pt-16">
+             <div className="w-full text-center mb-8">
+                <h2 className="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">Available Cryptocurrencies</h2>
+            </div>
             <ul className="space-y-6">
                 {cryptos.map(crypto => (
                     <li key={crypto.id} className="border p-4 rounded shadow hover:bg-gray-100 transition flex flex-col items-start">

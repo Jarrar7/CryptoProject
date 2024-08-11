@@ -1,9 +1,9 @@
 // src/App.jsx
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
-import ThemeToggle from './components/ThemeToggle';
+// import ThemeToggle from './components/ThemeToggle'; // הסר את הייבוא של ThemeToggle
 import Login from './components/Login';
 import Signup from './components/Signup';
 import CryptoList from './components/CryptoList';
@@ -14,30 +14,24 @@ import './index.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CryptoNews from './components/CryptoNews';
-import Profile from './components/Profile'
+import Profile from './components/Profile';
 
 function App() {
-  const [theme, setTheme] = useState('light');
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, [theme]);
-
   return (
     <Router>
       <div className="App bg-gray-100 dark:bg-gray-900 min-h-screen">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Signup />} />
-          <Route path="/home" element={
-            <>
-              <Header />
-              <div className="flex justify-end p-4">
-                <ThemeToggle theme={theme} setTheme={setTheme} />
-              </div>
-              <CryptoList />
-            </>
-          } />
+          <Route
+            path="/home"
+            element={
+              <>
+                <Header />
+                <CryptoList />
+              </>
+            }
+          />
           <Route path="/crypto/:id" element={<CryptoDetail />} />
           <Route path="/trends" element={<TrendsAnalysis />} />
           <Route path="/alerts" element={<CustomAlerts />} /> {/* הוסף נתיב ל CustomAlerts */}

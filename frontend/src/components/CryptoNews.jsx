@@ -4,6 +4,8 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const CryptoNews = () => {
     const [news, setNews] = useState([]);
+    const [filteredNews, setFilteredNews] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -16,6 +18,7 @@ const CryptoNews = () => {
             const response = await fetch(`${API_URL}/api/news/crypto-news?page=${page}`);
             const data = await response.json();
             setNews(data.articles);
+            setFilteredNews(data.articles);
             setTotalPages(data.totalPages);
             setCurrentPage(data.currentPage);
             setLoading(false);
@@ -29,6 +32,19 @@ const CryptoNews = () => {
     useEffect(() => {
         fetchNews(currentPage);
     }, [currentPage]);
+
+    // Update filtered news based on search term
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = news.filter((article) =>
+                article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                article.description.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredNews(filtered);
+        } else {
+            setFilteredNews(news);
+        }
+    }, [searchTerm, news]);
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -44,10 +60,20 @@ const CryptoNews = () => {
 
     return (
         <div>
-            <Header /> {/* Add the Header component */}
+            <Header />
             <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
                 <h2 className="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-gray-100">Latest Crypto News</h2>
                 <div className="max-w-4xl mx-auto">
+                    {/* Search Input */}
+                    <div className="mb-4 flex justify-center">
+                        <input
+                            type="text"
+                            placeholder="🔍 Search news..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full sm:w-1/2 p-2 px-4 text-sm rounded-full border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+                        />
+                    </div>
                     {loading ? (
                         <div className="flex justify-center items-center">
                             <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
@@ -57,7 +83,7 @@ const CryptoNews = () => {
                     ) : (
                         <>
                             <ul className="space-y-4">
-                                {news.map((article, index) => (
+                                {filteredNews.map((article, index) => (
                                     <li
                                         key={index}
                                         className="p-4 border rounded-lg shadow-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-300"
