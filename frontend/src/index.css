@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* עיצוב מותאם אישית עבור כפתורים */
+/* Custom styles for buttons */
 .custom-button {
     @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
     transition: background-color 0.3s;
@@ -12,12 +12,12 @@
     @apply bg-blue-600;
 }
 
-/* עיצוב מותאם אישית עבור כותרות */
+/* Custom styles for headings */
 .custom-heading {
     @apply text-2xl font-semibold text-gray-800 dark:text-gray-100;
 }
 
-/* עיצוב מותאם אישית עבור טפסים */
+/* Custom styles for forms */
 .custom-form {
     @apply bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md;
 }
@@ -33,7 +33,7 @@
     box-shadow: 0 0 0 1px #3182ce;
 }
 
-/* Custom Styles for CustomAlerts Component */
+/* Custom styles for CustomAlerts Component */
 .crypto-combobox,
 .price-input,
 .create-alert-button {
@@ -44,20 +44,17 @@
 }
 
 .create-alert-button {
-    background-color: #4CAF50;
-    /* Green background */
+    background-color: #4CAF50; /* Green background */
     color: white;
     cursor: pointer;
 }
 
 .create-alert-button:hover {
-    background-color: #45a049;
-    /* Darker green */
+    background-color: #45a049; /* Darker green */
 }
 
 .price-input {
-    width: 200px;
-    /* Set a specific width for input */
+    width: 200px; /* Set a specific width for input */
 }
 
 /* Loader CSS */
@@ -71,7 +68,6 @@
     0% {
         -webkit-transform: rotate(0deg);
     }
-
     100% {
         -webkit-transform: rotate(360deg);
     }
@@ -81,7 +77,6 @@
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }
