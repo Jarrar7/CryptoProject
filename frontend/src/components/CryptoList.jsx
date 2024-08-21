@@ -64,9 +64,9 @@ const CryptoList = () => {
     }
 
     return (
-        <div className="relative w-full min-h-screen pb-16 pt-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="relative w-full h-screen pb-16 pt-8 px-4 sm:px-6 lg:px-8">
             {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-gray-200 to-blue-200 opacity-60"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-gray-200 to-blue-200 opacity-60 h-full w-full"></div>
             <div className="relative text-center mb-12">
                 <h2 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                     Discover Top Cryptocurrencies
