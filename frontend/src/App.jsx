@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'; // Import routing components
 import Header from './components/Header'; // Import the Header component
@@ -18,7 +17,7 @@ import Profile from './components/Profile'; // Import the Profile component
 function App() {
   return (
     <Router> {/* Wrap the application in a Router component */}
-      <div className="App bg-gray-100 dark:bg-gray-900 min-h-screen">
+      <div className="App bg-gray-100 dark:bg-gray-900 h-full"> {/* Set a background and full height for the main container */}
         <Routes>
           {/* Define the application routes */}
           <Route path="/" element={<Login />} /> {/* Route for the Login page */}
