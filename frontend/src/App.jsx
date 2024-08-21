@@ -17,22 +17,27 @@ function App() {
   return (
     <Router> {/* Wrap the application in a Router component */}
       <div className="App bg-gray-100 dark:bg-gray-900 h-screen flex flex-col overflow-hidden">
-        {/* Set a background, full height, and prevent overflow */}
-        <Header /> {/* Render the Header component outside of Routes */}
-        <div className="flex-1 overflow-y-auto">
-          <Routes>
-            {/* Define the application routes */}
-            <Route path="/" element={<Login />} /> {/* Route for the Login page */}
-            <Route path="/register" element={<Signup />} /> {/* Route for the Signup page */}
-            <Route path="/home" element={<CryptoList />} /> {/* Route for the home page */}
-            <Route path="/crypto/:id" element={<CryptoDetail />} /> {/* Route for CryptoDetail page with dynamic ID */}
-            <Route path="/trends" element={<TrendsAnalysis />} /> {/* Route for TrendsAnalysis page */}
-            <Route path="/alerts" element={<CustomAlerts />} /> {/* Route for CustomAlerts page */}
-            <Route path="/crypto-news" element={<CryptoNews />} /> {/* Route for CryptoNews page */}
-            <Route path="/profile" element={<Profile />} /> {/* Route for Profile page */}
-            <Route path="*" element={<Navigate to="/" />} /> {/* Redirect any unknown routes to the Login page */}
-          </Routes>
-        </div>
+        {/* Set a background and full height for the main container */}
+        <Routes>
+          {/* Define the application routes */}
+          <Route path="/" element={<Login />} /> {/* Route for the Login page */}
+          <Route path="/register" element={<Signup />} /> {/* Route for the Signup page */}
+          <Route
+            path="/home"
+            element={
+              <>
+                <Header /> {/* Render Header and CryptoList for the home page */}
+                <CryptoList />
+              </>
+            }
+          />
+          <Route path="/crypto/:id" element={<CryptoDetail />} /> {/* Route for CryptoDetail page with dynamic ID */}
+          <Route path="/trends" element={<TrendsAnalysis />} /> {/* Route for TrendsAnalysis page */}
+          <Route path="/alerts" element={<CustomAlerts />} /> {/* Route for CustomAlerts page */}
+          <Route path="/crypto-news" element={<CryptoNews />} /> {/* Route for CryptoNews page */}
+          <Route path="/profile" element={<Profile />} /> {/* Route for Profile page */}
+          <Route path="*" element={<Navigate to="/" />} /> {/* Redirect any unknown routes to the Login page */}
+        </Routes>
         <ToastContainer /> {/* Container for displaying toast notifications */}
       </div>
     </Router>
