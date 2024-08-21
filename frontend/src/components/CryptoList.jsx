@@ -64,7 +64,7 @@ const CryptoList = () => {
     }
 
     return (
-        <div className="relative w-full min-h-screen pb-16 pt-8 px-4 sm:px-6 lg:px-8">
+        <div className="relative w-full min-h-screen pb-16 pt-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
             {/* Background gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-gray-200 to-blue-200 opacity-60"></div>
             <div className="relative text-center mb-12">
