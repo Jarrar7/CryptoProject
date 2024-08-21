@@ -61,21 +61,17 @@ const CryptoDetail = () => {
     return (
         <div>
             <Header /> {/* Render the Header component */}
-            <div className="bg-gray-100 dark:bg-gray-900 min-h-screen p-8">
+            <div className="bg-gray-100 dark:bg-gray-900 h-screen p-8">
                 <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-3xl mx-auto">
-                    {/* Display the name of the cryptocurrency */}
                     <h1 className="text-4xl font-bold mb-4 text-center text-gray-800 dark:text-gray-100">
                         {cryptoInfo.name}
                     </h1>
                     <div className="flex justify-center items-center mb-6">
-                        {/* Display the logo of the cryptocurrency */}
                         <img src={cryptoInfo.logo} alt={`${cryptoInfo.name} logo`} className="w-16 h-16 mr-4" />
-                        {/* Provide a link to the official website of the cryptocurrency */}
                         <a href={cryptoInfo.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 underline text-lg">
                             Official Website
                         </a>
                     </div>
-                    {/* Conditionally render the LiveChart component if showGraph is true */}
                     {showGraph && <LiveChart symbol={id} />}
                 </div>
             </div>
