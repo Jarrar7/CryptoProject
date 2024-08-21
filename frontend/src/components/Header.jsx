@@ -33,7 +33,7 @@ const Header = () => {
 
             {/* Navigation menu */}
             <nav
-                className={`fixed top-0 right-0 h-full bg-blue-800 transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                className={`fixed top-0 right-0 max-h-screen bg-blue-800 overflow-y-auto transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
                     } transition-transform duration-300 ease-in-out z-50 w-64 lg:relative lg:w-auto lg:bg-transparent lg:transform-none lg:transition-none lg:h-auto`}
             >
                 {/* Close button for mobile view */}
