@@ -64,7 +64,7 @@ const CryptoList = () => {
     }
 
     return (
-        <div className="relative overflow-hidden w-full min-h-screen pb-16 pt-8 px-4 sm:px-6 lg:px-8">
+        <div className="relative h-screen flex flex-col overflow-hidden w-full px-4 sm:px-6 lg:px-8">
             {/* Background gradient */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-gray-200 to-blue-200 opacity-60"></div>
             <div className="relative text-center mb-12">
@@ -76,7 +76,7 @@ const CryptoList = () => {
                 </p>
             </div>
             {/* List of cryptocurrencies */}
-            <ul className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10">
+            <ul className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-10 flex-1 overflow-y-auto">
                 {cryptos.map(crypto => (
                     <li
                         key={crypto.id}
@@ -127,6 +127,7 @@ const CryptoList = () => {
             </ul>
         </div>
     );
+
 };
 
 export default CryptoList;
