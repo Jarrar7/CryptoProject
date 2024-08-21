@@ -17,7 +17,8 @@ import Profile from './components/Profile'; // Import the Profile component
 function App() {
   return (
     <Router> {/* Wrap the application in a Router component */}
-      <div className="App bg-gray-100 dark:bg-gray-900 h-full"> {/* Set a background and full height for the main container */}
+      <div className="App bg-gray-100 dark:bg-gray-900 h-screen overflow-y-auto">
+        {/* Set a background and full height for the main container */}
         <Routes>
           {/* Define the application routes */}
           <Route path="/" element={<Login />} /> {/* Route for the Login page */}
