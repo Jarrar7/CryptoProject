@@ -18,8 +18,13 @@ const Profile = () => {
         const email = Cookies.get('userEmail'); // Get the user's email from cookies
         const token = Cookies.get('token'); // Get the user's token from cookies
 
+        // Debugging logs to check cookie values
+        console.log("Email from cookies:", email);
+        console.log("Token from cookies:", token);
+
         // If email or token is not found, redirect to the login page
         if (!email || !token) {
+            console.log("Redirecting to login due to missing email or token.");
             navigate('/login'); // Navigate to the login page if the user is not authenticated
             return;
         }
@@ -31,7 +36,12 @@ const Profile = () => {
                 'Authorization': `Bearer ${token}`, // Include the token in the request headers
             },
         })
-            .then(response => response.json()) // Parse the JSON response
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user profile');
+                }
+                return response.json();
+            })
             .then(data => setUser(data)) // Set the user data in state
             .catch(error => {
                 console.error('Error fetching user profile:', error); // Log any errors that occur during the fetch
@@ -59,23 +69,31 @@ const Profile = () => {
             },
             body: JSON.stringify({ email, newPassword }), // Send email and new password in the request body
         })
-            .then(response => response.json()) // Parse the JSON response
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update password');
+                }
+                return response.json();
+            })
             .then(data => toast.success(data.message)) // Show success toast if password is updated
-            .catch(error => toast.error('Error updating password:', error.message)); // Show error toast if updating fails
+            .catch(error => {
+                console.error('Error updating password:', error); // Log the error
+                toast.error(`Error updating password: ${error.message}`); // Show error toast if updating fails
+            });
     };
 
     return (
         <div>
             <Header /> {/* Render the Header component */}
-            <div className="max-w-md mx-auto mt-10 p-6 bg-gray-100 border border-gray-300 rounded-lg shadow-md">
-                <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-800">Profile</h1>
+            <div className="max-w-md mx-auto mt-10 p-6 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md">
+                <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-800 dark:text-gray-100">Profile</h1>
                 <div className="mb-6">
-                    <label className="block text-lg font-semibold text-gray-600">Name:</label>
-                    <p className="text-xl text-gray-900">{user.name}</p> {/* Display the user's name */}
+                    <label className="block text-lg font-semibold text-gray-600 dark:text-gray-400">Name:</label>
+                    <p className="text-xl text-gray-900 dark:text-gray-200">{user.name}</p> {/* Display the user's name */}
                 </div>
                 <div className="mb-6">
-                    <label className="block text-lg font-semibold text-gray-600">Email:</label>
-                    <p className="text-xl text-gray-900">{user.email}</p> {/* Display the user's email */}
+                    <label className="block text-lg font-semibold text-gray-600 dark:text-gray-400">Email:</label>
+                    <p className="text-xl text-gray-900 dark:text-gray-200">{user.email}</p> {/* Display the user's email */}
                 </div>
                 {/* Toggle password change form visibility */}
                 {!showPasswordChange && (
@@ -89,23 +107,23 @@ const Profile = () => {
                 {showPasswordChange && (
                     <>
                         <div className="mb-4">
-                            <label className="block text-lg font-semibold text-gray-600">New Password:</label>
+                            <label className="block text-lg font-semibold text-gray-600 dark:text-gray-400">New Password:</label>
                             <input
                                 type="password"
                                 placeholder="New Password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)} // Update new password state
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition duration-300"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition duration-300"
                             />
                         </div>
                         <div className="mb-6">
-                            <label className="block text-lg font-semibold text-gray-600">Confirm New Password:</label>
+                            <label className="block text-lg font-semibold text-gray-600 dark:text-gray-400">Confirm New Password:</label>
                             <input
                                 type="password"
                                 placeholder="Confirm New Password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)} // Update confirm password state
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition duration-300"
+                                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition duration-300"
                             />
                         </div>
                         <button
