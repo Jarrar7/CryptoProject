@@ -70,11 +70,15 @@ const Header = () => {
                         </Link>
                     </li>
                     {/* Link to the Profile page */}
-                    <li className="mb-4 lg:mb-0">
+
+                    {/*removed Profile due to some problems in morethanwallet*/}
+
+                    {/*<li className="mb-4 lg:mb-0">
                         <Link to="/profile" className="cursor-pointer block py-2 lg:py-0 text-white hover:text-gray-300" onClick={toggleMenu}>
                             Profile
                         </Link>
-                    </li>
+                    </li>*/}
+
                     {/* Logout component */}
                     <li className="mb-4 lg:mb-0">
                         <Logout />
